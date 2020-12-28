@@ -77,7 +77,11 @@ class LeagueApi:
         if response.status_code == 429:
             retry_after = int(response.headers["Retry-After"])
             time.sleep(retry_after)
-            return self.make_request(uri)
+            return self.make_request(uri, **params)
+
+        elif response.status_code == 504:
+            # If a 504 response is received, immediately resend a request.
+            return self.make_request(uri, **params)
 
         else:
             response.raise_for_status()
