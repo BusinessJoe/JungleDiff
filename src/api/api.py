@@ -9,6 +9,7 @@ class LeagueApi:
         self.token = token
         self.region = region
         self.domain = self.domain_from_region(region)
+        self.session = requests.Session()
 
     def domain_from_region(self, region):
         domains = {
@@ -25,6 +26,12 @@ class LeagueApi:
             "RU":   "ru.api.riotgames.com"
         }
         return f'https://' + domains[region]
+
+    def get_league_entries(self, queue, tier, division, page=None):
+        endpoint = "/lol/league-exp/v4/entries/{queue}/{tier}/{division}"
+        uri = self.domain + endpoint.format(queue=queue, tier=tier, division=division)
+
+        return self.make_request(uri, page=page)
 
     def get_summoner_by_account_id(self, account_id):
         """Get a summoner by account id"""
@@ -72,7 +79,7 @@ class LeagueApi:
         If a 429 response is received, wait before retrying the request.
         Any other non-200 status codes will raise an exception."""
         token = {"X-Riot-Token": self.token}
-        response = requests.get(uri, params=params, headers=token)
+        response = self.session.get(uri, params=params, headers=token)
 
         if response.status_code == 429:
             retry_after = int(response.headers["Retry-After"])
@@ -82,7 +89,10 @@ class LeagueApi:
         elif response.status_code == 504:
             # If a 504 response is received, immediately resend a request.
             return self.make_request(uri, **params)
-
+        elif response.status_code == 504:
+            print(response)
+            print(response.headers)
+            response.raise_for_status()
         else:
             response.raise_for_status()
 
