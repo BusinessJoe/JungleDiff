@@ -98,9 +98,9 @@ def predict_model_for_summoner(token, name, region):
         timeline = api.get_timeline_by_match_id(game_id)
 
         # find summoner's team
-        for indentity in match['participantIdentities']:
-            if indentity['player']['accountId'] == summoner['accountId']:
-                participant_id = indentity['participantId']
+        for identity in match['participantIdentities']:
+            if identity['player']['accountId'] == summoner['accountId']:
+                participant_id = identity['participantId']
         for participant in match['participants']:
             if participant['participantId'] == participant_id:
                 team_id = participant['teamId']
