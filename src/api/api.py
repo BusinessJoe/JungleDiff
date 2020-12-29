@@ -89,10 +89,7 @@ class LeagueApi:
         elif response.status_code == 504:
             # If a 504 response is received, immediately resend a request.
             return self.make_request(uri, **params)
-        elif response.status_code == 504:
-            print(response)
-            print(response.headers)
-            response.raise_for_status()
+
         else:
             response.raise_for_status()
 
