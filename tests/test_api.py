@@ -69,3 +69,11 @@ class TestMatchApi(unittest.TestCase):
     #     for i in range(100):
     #         print(i)
     #         result = api.get_summoner_by_name("BusinessJoe")
+
+
+class TestLeagueEntries(unittest.TestCase):
+    def test_get_diamond_1(self):
+        api = LeagueApi(token, "NA1")
+        result = api.get_league_entries("RANKED_SOLO_5x5", "DIAMOND", "I")
+
+        pprint.pprint(result)
