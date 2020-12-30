@@ -59,6 +59,16 @@ class TestMatchApi(unittest.TestCase):
         for match in result["matches"]:
             self.assertEqual(match["queue"], 420)
 
+    def test_matchlist_with_many_queue_ids(self):
+        api = LeagueApi(token, "NA1")
+        result = api.get_matchlist_by_account_id(account_id, queue={420, 440})
+
+        # assert that multiple matches were received
+        self.assertTrue(result["matches"])
+        # check that received matches were only of queue types 420 and 440
+        for match in result["matches"]:
+            self.assertIn(match["queue"], {420, 440})
+
     def test_timeline_from_match_id(self):
         api = LeagueApi(token, "NA1")
         match_id = api.get_matchlist_by_account_id(account_id)["matches"][0]["gameId"]
