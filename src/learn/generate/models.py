@@ -6,7 +6,7 @@ import numpy as np
 from scipy.special import expit
 from joblib import dump, load
 
-from src.api import LeagueApi
+from backend_server.api import LeagueApi
 
 
 
@@ -70,12 +70,7 @@ def train_gold_diff_dragon_model():
     dump(clf, 'models/gold_diff_dragon.joblib')
 
 
-def plot_gold_diff_dragon_model():
-    gold_diffs, first_dragons = gold_diffs_and_dragons_from_database()
-    plt.scatter(gold_diffs, first_dragons)
-
-    clf = load('models/gold_diff_dragon.joblib')
-
+def plot_gold_diff_dragon_model(clf):
     X_test = np.linspace(-600, 600, 50)
     loss = expit(X_test * clf.coef_ + clf.intercept_).ravel()
     plt.plot(X_test, loss, color='red', linewidth=3)
@@ -86,7 +81,7 @@ def predict_model_for_summoner(token, name, region):
     """Create a logistic model for the summoner's last 30 ranked games"""
     api = LeagueApi(token, region)
     summoner = api.get_summoner_by_name(name)
-    matchlist = api.get_matchlist_by_account_id(summoner['accountId'], queue=420)
+    matchlist = api.get_matchlist_by_account_id(summoner['accountId'], queue={400, 420, 440})
 
     gold_diffs = []
     first_dragons = []
@@ -118,6 +113,8 @@ def predict_model_for_summoner(token, name, region):
 
     clf = sklearn.linear_model.LogisticRegression(C=1e5, solver='liblinear')
     clf.fit(np.reshape(gold_diffs, (-1, 1)), first_dragons)
+    plt.scatter(gold_diffs, first_dragons)
+    plot_gold_diff_dragon_model(clf)
     return clf
 
 
@@ -127,7 +124,7 @@ if __name__ == '__main__':
     if token is None:
         exit()
 
-    summoner_name = "trolljames"
+    summoner_name = "raiyansvibe"
     clf = predict_model_for_summoner(token, summoner_name, "NA1")
     clf2 = load('models/gold_diff_dragon.joblib')
 
@@ -138,5 +135,6 @@ if __name__ == '__main__':
     loss2 = expit(X_test * clf2.coef_ + clf2.intercept_).ravel()
     plt.plot(X_test, loss2, color='blue', linewidth=3, label='Average diamond game')
     plt.legend()
+    plt.ylim(0, 1)
 
     plt.show()

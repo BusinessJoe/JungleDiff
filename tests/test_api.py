@@ -1,7 +1,7 @@
 import unittest
 import os
 import pprint
-from src.api import LeagueApi
+from backend_server.api import LeagueApi
 
 token = os.getenv("riot-api-token")
 name = "BusinessJoe"
