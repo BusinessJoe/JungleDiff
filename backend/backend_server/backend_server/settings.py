@@ -86,8 +86,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'league_website',
-        'USER': 'league_website_user',
-        'PASSWORD': 'windelchocolates',
+        'USER': os.environ['DB-USER'],
+        'PASSWORD': os.environ['DB-PASSWORD'],
     }
 }
 
@@ -129,3 +129,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# we whitelist localhost:3000 because that's where frontend will be served
+CORS_ORIGIN_WHITELIST = (
+     'localhost:3000/'
+ )
