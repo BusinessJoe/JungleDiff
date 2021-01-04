@@ -32,9 +32,8 @@ def summoner_matches(request):
                 match.save()
 
                 timeline_dict = api.get_timeline_by_match_id(game_id)
-                timeline = Timeline(data=timeline_dict, summoner=s)
+                timeline = Timeline(gameId=game_id, data=timeline_dict, summoner=s)
                 timeline.save()
-                print(game_id)
             return HttpResponse()
         else:
             return HttpResponseBadRequest('Expected key `summoner_name`')

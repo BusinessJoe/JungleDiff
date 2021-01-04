@@ -27,6 +27,7 @@ class Match(models.Model):
 
 
 class Timeline(models.Model):
+    gameId = models.BigIntegerField()
     data = models.JSONField()
     summoner = models.ForeignKey(
         Summoner,
