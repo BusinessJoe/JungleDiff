@@ -1,7 +1,7 @@
 from dataclasses import asdict
 
 from django.http import JsonResponse
-from api.graph import Graph
+from riotwrapper.graph import Graph
 
 
 # Create your views here.

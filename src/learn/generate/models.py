@@ -6,7 +6,7 @@ import numpy as np
 from scipy.special import expit
 from joblib import dump, load
 
-from backend_server.api import LeagueApi
+from backend_server.riotwrapper import LeagueApi
 
 
 
@@ -120,7 +120,7 @@ def predict_model_for_summoner(token, name, region):
 
 if __name__ == '__main__':
     import os
-    token = os.getenv("riot-api-token")
+    token = os.getenv("riot-riotwrapper-token")
     if token is None:
         exit()
 

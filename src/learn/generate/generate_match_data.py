@@ -3,7 +3,7 @@ import csv
 import requests
 import pymongo
 from pprint import pprint
-from backend_server.api import LeagueApi
+from backend_server.riotwrapper import LeagueApi
 
 
 token = os.getenv('riot-api-token')

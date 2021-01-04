@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'jungle',
-    'api',
+    'riotwrapper',
 ]
 
 MIDDLEWARE = [
