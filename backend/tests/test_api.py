@@ -5,7 +5,7 @@ import pprint
 from pathlib import Path
 from ..backend_server.riotwrapper import LeagueApi
 
-load_dotenv(dotenv_path=Path('.') / 'backend' / 'backend_server' / '.env')
+load_dotenv(dotenv_path=Path('.') / 'LeagueAPI' / 'backend' / 'backend_server' / '.env')
 token = os.environ["RIOT-API-TOKEN"]
 name = "BusinessJoe"
 account_id = "9iSz5T3joMpnYqMWfByPLNWQqQIlJR2Qo7Baz5zvfTmxzwqvDob46vWK"
