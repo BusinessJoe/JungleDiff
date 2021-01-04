@@ -1,9 +1,12 @@
 import unittest
 import os
+from dotenv import load_dotenv
 import pprint
-from backend_server.api import LeagueApi
+from pathlib import Path
+from ..backend_server.riotwrapper import LeagueApi
 
-token = os.getenv("riot-api-token")
+load_dotenv(dotenv_path=Path('.') / 'backend' / 'backend_server' / '.env')
+token = os.environ["RIOT-API-TOKEN"]
 name = "BusinessJoe"
 account_id = "9iSz5T3joMpnYqMWfByPLNWQqQIlJR2Qo7Baz5zvfTmxzwqvDob46vWK"
 puuid = "T3zCT08y6lGi7LuKwBRykIdQMc6V4G_Bcd4k8914MT9diXVkOL87pZR0nqjXBjtfBL_7v2___m_zEw"
