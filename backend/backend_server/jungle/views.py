@@ -2,6 +2,7 @@ from dataclasses import asdict
 import os
 import json
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from requests.exceptions import HTTPError
 
@@ -58,20 +59,42 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
     summoner_dict['summonerId'] = summoner_dict['id']
     del summoner_dict['id']
 
-    s = Summoner(**summoner_dict)
+    # Update existing summoner entry if it exists, otherwise create a new one
+    try:
+        s = Summoner.objects.get(accountId=summoner_dict['accountId'])
+        for (key, value) in summoner_dict.items():
+            setattr(s, key, value)
+        s.save()
+        print('updated')
+    except ObjectDoesNotExist:
+        s = Summoner(**summoner_dict)
+        print('created')
     s.save()
 
     try:
         match_list = api.get_matchlist_by_account_id(s.accountId, queue={420})
+        match_list = match_list['matches']
     except HTTPError as err:
+        # If there are no matches a 404 error is raised
         if err.response.status_code == 404:
-            return 0
+            match_list = []
         else:
             raise
 
-    for match_summary in match_list['matches'][:num_matches]:
-        game_id = match_summary['gameId']
+    existing_matches = Match.objects.filter(summoner=s)
+    existing_match_ids = {m.gameId for m in existing_matches}
+    new_match_ids = {m['gameId'] for m in match_list[:num_matches]}
 
+    # Preexisting matches that aren't present in the new match list should be deleted
+    to_delete = existing_match_ids - new_match_ids
+    # Matches that don't already exist should be acquired from Riot's api
+    to_create = new_match_ids - existing_match_ids
+
+    Match.objects.filter(gameId__in=to_delete).delete()
+    Timeline.objects.filter(gameId__in=to_delete).delete()
+
+    # Request new matches from Riot
+    for game_id in to_create:
         match_dict = api.get_match_by_match_id(game_id)
         match = Match(gameId=game_id, data=match_dict, summoner=s)
         match.save()
@@ -80,7 +103,17 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
         timeline = Timeline(gameId=game_id, data=timeline_dict, summoner=s)
         timeline.save()
 
-    return num_matches
+    print(f'deleted {len(to_delete)} matches')
+    print(f'created {len(to_create)} matches')
+    return min(len(match_list), num_matches)
+
+
+def match_exists(summoner, game_id) -> bool:
+    try:
+        Match.objects.get(summoner=summoner, gameId=game_id)
+        return True
+    except ObjectDoesNotExist:
+        return False
 
 
 def dragon_gold_diff(request, summoner_name):
