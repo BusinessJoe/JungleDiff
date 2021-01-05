@@ -13,15 +13,13 @@ export default class Home extends Component {
             axios.post("/api/summoner/", {
                     summoner_name: e.target.value,    
                 })
-            .then((response) => {
-                if (response.ok) {
-                    this.props.history.push("/test/" + e.target.value);
-                }
-                else {
-                    console.log(response);
-                    //throw new Error();
-                }
-            });
+            .then(response => {
+				console.log(response);
+				this.props.history.push("/test/" + e.target.value);
+            })
+			.catch(error => {
+				console.log(error);
+			});
         }
     }
 
