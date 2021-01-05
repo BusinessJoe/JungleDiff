@@ -2,6 +2,8 @@ import { React, Component } from 'react';
 import { Grid, Typography, TextField } from '@material-ui/core';
 import axios from 'axios';
 
+axios.defaults.baseURL = 'http://localhost:8000';
+
 export default class Home extends Component {
     constructor(props) {
         super (props);
@@ -11,15 +13,16 @@ export default class Home extends Component {
         var code = e.keyCode || e.which;
         if(code === 13) {
             axios.post("/api/summoner/", {
-                    summoner_name: e.target.value,    
-                })
-            .then(response => {
-				console.log(response);
-				this.props.history.push("/test/" + e.target.value);
-            })
-			.catch(error => {
-				console.log(error);
-			});
+					summoner_name: e.target.value,    
+				})
+				.then(response => {
+					console.log(response);
+					this.props.history.push("/test/" + e.target.value);
+				})
+				.catch(error => {
+					console.log(error);
+				}
+			);
         }
     }
 
