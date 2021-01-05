@@ -1,8 +1,10 @@
 from dataclasses import asdict
 import os
+import json
+from requests.exceptions import HTTPError
 
 from django.http import HttpResponse, JsonResponse
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseNotFound
 from riotwrapper.graph import Graph
 
 from riotwrapper.models import Summoner, Match, Timeline
@@ -11,11 +13,21 @@ from riotwrapper.api import LeagueApi
 
 def summoner_matches(request):
     if request.method == 'POST':
-        if 'summoner_name' in request.POST:
-            summoner_name = request.POST['summoner_name']
-
+        # Received data is not part of a form so request.body must be used instead of request.POST
+        body = json.loads(request.body.decode('utf-8'))
+        try:
+            summoner_name = body['summoner_name']
+        except KeyError:
+            return HttpResponseBadRequest('Expected key `summoner_name`')
+        else:
             api = LeagueApi(os.environ['RIOT-API-TOKEN'], 'NA1')
-            summoner_dict = api.get_summoner_by_name(summoner_name)
+            try:
+                summoner_dict = api.get_summoner_by_name(summoner_name)
+            except HTTPError as err:
+                if err.response.status_code == 404:
+                    return HttpResponseNotFound()
+                else:
+                    raise
 
             summoner_dict['summonerId'] = summoner_dict['id']
             del summoner_dict['id']
@@ -35,8 +47,6 @@ def summoner_matches(request):
                 timeline = Timeline(gameId=game_id, data=timeline_dict, summoner=s)
                 timeline.save()
             return HttpResponse()
-        else:
-            return HttpResponseBadRequest('Expected key `summoner_name`')
     return HttpResponseNotAllowed(['POST'])
 
 

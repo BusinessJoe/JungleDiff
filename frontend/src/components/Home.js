@@ -1,5 +1,6 @@
 import { React, Component } from 'react';
 import { Grid, Typography, TextField } from '@material-ui/core';
+import axios from 'axios';
 
 export default class Home extends Component {
     constructor(props) {
@@ -9,22 +10,16 @@ export default class Home extends Component {
     enterPressed(e) {
         var code = e.keyCode || e.which;
         if(code === 13) {
-            const requestOptions = {
-                method: "POST",
-                headers: { "Content-Type": "application/json",},
-                body: JSON.stringify({
+            axios.post("/api/summoner/", {
                     summoner_name: e.target.value,    
-                }),
-                credentials: 'include',
-            };
-            fetch("http://127.0.0.1:8000/api/summoner/", requestOptions)
+                })
             .then((response) => {
                 if (response.ok) {
                     this.props.history.push("/test/" + e.target.value);
                 }
                 else {
                     console.log(response);
-                    throw new Error();
+                    //throw new Error();
                 }
             });
         }
