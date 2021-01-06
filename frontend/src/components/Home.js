@@ -32,7 +32,10 @@ export default class Home extends Component {
         <div
           style={{
             position: 'absolute', left: '50%', top: '50%',
-            transform: 'translate(-50%, -50%)',
+            transform: 'translate(-50%, -50%)', backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '10px',
+            opacity: '0.8',
           }}
           >
           <Grid container spacing={3} className="center" direction="row" align="center" justify="center">

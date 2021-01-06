@@ -1,3 +1,13 @@
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(../images for backgrounds/Ocean.jpg);
+}
+
+.darken-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -5,7 +15,9 @@ footer {
   background-color: #DDD;
   justify-content: center;
   display: flex;
+  padding-bottom: 10px;
 }
+
 .footer-item1 {
   width: 80%;
   height: 50px;
