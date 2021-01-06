@@ -1,0 +1,16 @@
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #DDD;
+  justify-content: center;
+  display: flex;
+}
+.footer-item1 {
+  width: 80%;
+  height: 50px;
+  padding: 25px 5% 10px 5%;
+  flex: 1;
+  color: #929292;
+  font-size: 10px;
+}
