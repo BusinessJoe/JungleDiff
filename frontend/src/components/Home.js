@@ -47,9 +47,8 @@ export default class Home extends Component {
           </Grid>
         </div>
         <footer>
-          <p>
-            Lorem ipsum
-          </p>
+          <div class='footer-item1'>[WEBSITE NAME] © 2021 [WEBSITE NAME] isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+          </div>
         </footer>
       </div>
     );
