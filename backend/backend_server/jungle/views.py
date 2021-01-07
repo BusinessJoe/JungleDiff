@@ -108,14 +108,6 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
     return min(len(match_list), num_matches)
 
 
-def match_exists(summoner, game_id) -> bool:
-    try:
-        Match.objects.get(summoner=summoner, gameId=game_id)
-        return True
-    except ObjectDoesNotExist:
-        return False
-
-
 def dragon_gold_diff(request, summoner_name):
     graph = Graph(0, 0, 10, 10, [(1, 1), (2, 2), (3, 1)])
     return JsonResponse(asdict(graph))

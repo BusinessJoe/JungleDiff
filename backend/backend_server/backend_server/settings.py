@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'backend_server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'league_website',
+        'NAME': os.environ['DB-NAME'],
         'USER': os.environ['DB-USER'],
         'PASSWORD': os.environ['DB-PASSWORD'],
     }
