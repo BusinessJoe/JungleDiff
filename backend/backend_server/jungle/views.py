@@ -15,6 +15,7 @@ from rest_framework import status
 from riotwrapper.graph import Graph
 from riotwrapper.models import Summoner, Match, Timeline
 from riotwrapper.api import LeagueApi
+import utils.utils as utils
 
 
 @api_view(['POST'])
@@ -23,6 +24,7 @@ def update_summoner(request):
     if request.method == 'POST':
         try:
             summoner_name = request.data['summoner_name']
+            summoner_name = utils.sanitize_name(summoner_name)
             num_matches = request.data.get('matches', 5)
             num_matches = min(int(num_matches), 5)
         except KeyError:
