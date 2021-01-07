@@ -18,7 +18,7 @@ export default class Home extends Component {
       })
       .then(response => {
         console.log(response);
-        this.props.history.push("/test/" + e.target.value);
+        this.props.history.push("/summonerPage/" + e.target.value);
       })
       .catch(error => {
         console.log(error);
