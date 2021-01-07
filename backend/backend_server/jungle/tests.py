@@ -49,3 +49,17 @@ class GraphsTestCase(TestCase):
         save_summoner_match_history(summoner_name, 5)
         dataset = dragon_gold_diff.dataset_for_summoner(summoner_name, api)
         self.assertTrue(dataset)
+
+    def test_gold_dragon_diff_endpoint(self):
+        from jungle.views import save_summoner_match_history
+        import json
+
+        c = Client()
+
+        summoner_name = "JJamali"
+        save_summoner_match_history(summoner_name, 5)
+        response = c.get('/api/summoner/JJamali/graph/dragon-gold-diff/')
+        content = response.content.decode('utf-8')
+        data = json.loads(content)
+        self.assertEqual(data['label'], "First Dragon Change vs. Botlane Gold Diff")
+        self.assertGreater(len(data['data']), 0)

@@ -12,9 +12,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from riotwrapper.graph import Graph
 from riotwrapper.models import Summoner, Match, Timeline
 from riotwrapper.api import LeagueApi
+from jungle.stats import dragon_gold_diff
 import utils.utils as utils
 
 
@@ -110,6 +110,15 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
     return min(len(match_list), num_matches)
 
 
-def dragon_gold_diff(request, summoner_name):
-    graph = Graph(0, 0, 10, 10, [(1, 1), (2, 2), (3, 1)])
-    return JsonResponse(asdict(graph))
+def match_exists(summoner, game_id) -> bool:
+    try:
+        Match.objects.get(summoner=summoner, gameId=game_id)
+        return True
+    except ObjectDoesNotExist:
+        return False
+
+
+def dragon_gold_diff_view(request, summoner_name):
+    api = LeagueApi(os.environ['RIOT-API-TOKEN'], 'NA1')
+    dataset = dragon_gold_diff.dataset_for_summoner(summoner_name, api)
+    return JsonResponse(dataset)
