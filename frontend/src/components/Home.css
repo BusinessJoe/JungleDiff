@@ -15,13 +15,14 @@ footer {
   background-color: #DDD;
   justify-content: center;
   display: flex;
-  padding-bottom: 10px;
 }
 
 .footer-item1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 80%;
   height: 50px;
-  padding: 25px 5% 10px 5%;
   flex: 1;
   color: #929292;
   font-size: 10px;
