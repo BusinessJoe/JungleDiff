@@ -12,9 +12,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from riotwrapper.graph import Graph
 from riotwrapper.models import Summoner, Match, Timeline
 from riotwrapper.api import LeagueApi
+from jungle.stats import dragon_gold_diff
+import utils.utils as utils
 
 
 @api_view(['POST'])
@@ -23,6 +24,7 @@ def update_summoner(request):
     if request.method == 'POST':
         try:
             summoner_name = request.data['summoner_name']
+            summoner_name = utils.sanitize_name(summoner_name)
             num_matches = request.data.get('matches', 5)
             num_matches = min(int(num_matches), 5)
         except KeyError:
@@ -116,6 +118,7 @@ def match_exists(summoner, game_id) -> bool:
         return False
 
 
-def dragon_gold_diff(request, summoner_name):
-    graph = Graph(0, 0, 10, 10, [(1, 1), (2, 2), (3, 1)])
-    return JsonResponse(asdict(graph))
+def dragon_gold_diff_view(request, summoner_name):
+    api = LeagueApi(os.environ['RIOT-API-TOKEN'], 'NA1')
+    dataset = dragon_gold_diff.dataset_for_summoner(summoner_name, api)
+    return JsonResponse(dataset)
