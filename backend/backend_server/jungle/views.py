@@ -4,6 +4,7 @@ import json
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction, IntegrityError
 from requests.exceptions import HTTPError
 
 from django.http import HttpResponse, JsonResponse
@@ -31,23 +32,28 @@ def update_summoner(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except ValueError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
-            try:
+
+        try:
+            with transaction.atomic():
                 num_new_matches = save_summoner_match_history(summoner_name, num_matches)
-            except HTTPError as err:
-                if err.response.status_code == 404:
-                    print('got 404')
-                    return Response(status=status.HTTP_404_NOT_FOUND)
-                raise
-            else:
-                return Response(
-                    {
-                        "summoner_name": summoner_name,
-                        "matches": num_new_matches,
-                        "Location": f'{request.build_absolute_uri()}{summoner_name}/'
-                    },
-                    status=status.HTTP_201_CREATED,
-                )
+        except HTTPError as err:
+            if err.response.status_code == 404:
+                print('got 404')
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            raise
+        except IntegrityError:
+            # Tried to make a summoner that already exists
+            # another process made the summoner so it should be okay
+            num_new_matches = 0
+
+        return Response(
+            {
+                "summoner_name": summoner_name,
+                "matches": num_new_matches,
+                "Location": f'{request.build_absolute_uri()}{summoner_name}/'
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 def save_summoner_match_history(summoner_name, num_matches) -> int:
@@ -63,7 +69,7 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
 
     # Update existing summoner entry if it exists, otherwise create a new one
     try:
-        s = Summoner.objects.get(accountId=summoner_dict['accountId'])
+        s = Summoner.objects.select_for_update().get(accountId=summoner_dict['accountId'])
         for (key, value) in summoner_dict.items():
             setattr(s, key, value)
         s.save()
@@ -83,7 +89,7 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
         else:
             raise
 
-    existing_matches = Match.objects.filter(summoner=s)
+    existing_matches = Match.objects.select_for_update().filter(summoner=s)
     existing_match_ids = {m.gameId for m in existing_matches}
     new_match_ids = {m['gameId'] for m in match_list[:num_matches]}
 
@@ -92,8 +98,8 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
     # Matches that don't already exist should be acquired from Riot's api
     to_create = new_match_ids - existing_match_ids
 
-    Match.objects.filter(gameId__in=to_delete).delete()
-    Timeline.objects.filter(gameId__in=to_delete).delete()
+    Match.objects.select_for_update().filter(gameId__in=to_delete).delete()
+    Timeline.objects.select_for_update().filter(gameId__in=to_delete).delete()
 
     # Request new matches from Riot
     for game_id in to_create:
