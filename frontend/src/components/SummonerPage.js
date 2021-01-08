@@ -11,14 +11,15 @@ export default class SummonerPage extends Component {
     super (props);
 
     this.state = {
+      Location:  props.location.state,
       data: {
-        datasets: []
+        datasets: null,
       }
     }
   }
 
   componentDidMount() {
-    axios.get('api/summoner/JJamali/graph/dragon-gold-diff')
+    axios.get(`${this.state.Location}graph/dragon-gold-diff`)
     .then(({ data }) => {
       this.setState({
         data: {

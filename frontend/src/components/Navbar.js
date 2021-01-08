@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
                             <Typography variant='h2' component={Link} to="/" style ={{textDecoration: 'none', color: 'white'}}>League Api Lads</Typography>
                         </Grid>
                         <Grid item xs={12} align="center">
-                            <ButtonGroup variant="contained" size="small" fullWidth="true">
+                            <ButtonGroup variant="contained" size="small" fullWidth={true}>
                                 <Button variant="contained" style={{ backgroundColor: "#a6d4fa" }}>
                                     <Typography>Something1</Typography>
                                 </Button>
