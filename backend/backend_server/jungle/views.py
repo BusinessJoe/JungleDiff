@@ -1,6 +1,5 @@
 from dataclasses import asdict
 import os
-import json
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
@@ -128,3 +127,10 @@ def dragon_gold_diff_view(request, summoner_name):
     api = LeagueApi(os.environ['RIOT-API-TOKEN'], 'NA1')
     dataset = dragon_gold_diff.dataset_for_summoner(summoner_name, api)
     return JsonResponse(dataset)
+
+
+@api_view(['GET'])
+def comparison_dragon_gold_diff_view(request):
+    if request.method == 'GET':
+        dataset = dragon_gold_diff.comparison_dataset(1)
+        return Response(dataset)

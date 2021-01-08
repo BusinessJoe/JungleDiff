@@ -2,6 +2,7 @@ import { React, Component } from 'react';
 import { Grid, Typography, TextField } from '@material-ui/core';
 import Navbar from './Navbar';
 import ChartTest from './ChartTest';
+import DragonGoldDiffChart from './Charts.js';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -18,20 +19,6 @@ export default class SummonerPage extends Component {
     }
   }
 
-  componentDidMount() {
-    axios.get(`${this.state.Location}graph/dragon-gold-diff`)
-    .then(({ data }) => {
-      this.setState({
-        data: {
-          datasets: [data]
-        }
-      });
-    })
-    .catch((err) => {});
-
-
-  }
-
   render() {
     return (
       <Grid container spacing ={0}>
@@ -39,7 +26,7 @@ export default class SummonerPage extends Component {
           <Navbar />
         </Grid>
         <Grid item xs = {12}>
-          <ChartTest data={this.state.data}/>
+          <DragonGoldDiffChart Location={this.state.Location}/>
         </Grid>
       </Grid>
     );
