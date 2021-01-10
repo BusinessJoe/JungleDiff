@@ -16,11 +16,11 @@ export default class Home extends Component {
       axios.post("/api/summoner/", {
         summoner_name: e.target.value,
       })
-      .then(response => { 
+      .then(response => {
         console.log(response);
         this.props.history.push({
           pathname: "/summonerPage/" + e.target.value,
-          state: response.data.Location,
+          state: response.data
         })
       })
       .catch(error => {

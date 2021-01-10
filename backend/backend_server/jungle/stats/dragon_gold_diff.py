@@ -12,14 +12,14 @@ def dataset_for_summoner(summoner_name, api):
     """Return a dataset containing graph data in the format chart.js expects"""
     clf = _predict_model_for_summoner(api, summoner_name)
     data = _quantize_logistic_model(clf)
-    graph = Graph("Your games", data)
+    graph = Graph(f"{summoner_name}", data)
     return graph.chart_js_dataset()
 
 
 def comparison_dataset(division):
     clf = load('backend/backend_server/jungle/stats/dragon_gold_diff.joblib')
     data = _quantize_logistic_model(clf)
-    graph = Graph("Diamond __", data)
+    graph = Graph("Average Diamond Game", data)
     return graph.chart_js_dataset()
 
 

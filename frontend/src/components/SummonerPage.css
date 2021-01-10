@@ -1,0 +1,15 @@
+#contentwrapper {
+  margin: auto;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.summonericon {
+  width: 100%;
+  border: 3px solid black;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: pink;
+}
