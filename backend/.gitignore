@@ -1,2 +1,5 @@
+__pycache__/
+venv/
+.idea/
 /backend_server/.env
 /backend_server/db.sqlite3

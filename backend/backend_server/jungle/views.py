@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from typing import Tuple
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -34,7 +34,7 @@ def update_summoner(request):
 
         try:
             with transaction.atomic():
-                num_new_matches = save_summoner_match_history(summoner_name, num_matches)
+                num_new_matches, summoner = save_summoner_match_history(summoner_name, num_matches)
         except HTTPError as err:
             if err.response.status_code == 404:
                 print('got 404')
@@ -48,6 +48,8 @@ def update_summoner(request):
         return Response(
             {
                 "summoner_name": summoner_name,
+                "account_id": summoner.accountId,
+                "profile_icon_id": summoner.profileIconId,
                 "matches": num_new_matches,
                 "Location": f'{request.build_absolute_uri()}{summoner_name}/'
             },
@@ -55,7 +57,7 @@ def update_summoner(request):
         )
 
 
-def save_summoner_match_history(summoner_name, num_matches) -> int:
+def save_summoner_match_history(summoner_name, num_matches) -> Tuple[int, Summoner]:
     """Save the summoner's most recent ranked solo games to the database.
 
     Returns the new number of matches saved for the summoner.
@@ -112,7 +114,7 @@ def save_summoner_match_history(summoner_name, num_matches) -> int:
 
     print(f'deleted {len(to_delete)} matches')
     print(f'created {len(to_create)} matches')
-    return min(len(match_list), num_matches)
+    return min(len(match_list), num_matches), s
 
 
 def match_exists(summoner, game_id) -> bool:

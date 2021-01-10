@@ -20,6 +20,11 @@ export default class SummonerPage extends Component {
     }
   }
 
+  getSummonerIcon() {
+    const iconId = this.state.profile_icon_id;
+    return `http://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/${iconId}.png`
+  }
+
   render() {
     return (
       <div>
@@ -29,7 +34,7 @@ export default class SummonerPage extends Component {
             <Grid item xs={2}>
               <img
                 className='summonericon'
-                src='https://cdn3.volusion.com/hckyx.hepad/v/vspfiles/photos/CONC-REDAPPLE-2.jpg?v-cache=1396136943'
+                src={this.getSummonerIcon()}
               />
             </Grid>
             <Grid item>
