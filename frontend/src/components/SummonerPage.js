@@ -1,7 +1,6 @@
 import { React, Component } from 'react';
 import { Grid, Typography, TextField, Paper } from '@material-ui/core';
 import Navbar from './Navbar';
-import ChartTest from './ChartTest';
 import DragonGoldDiffChart from './Charts.js';
 import axios from 'axios';
 import './SummonerPage.css';
