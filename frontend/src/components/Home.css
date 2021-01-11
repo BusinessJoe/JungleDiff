@@ -9,12 +9,12 @@
 }
 
 footer {
-  position: absolute;
   bottom: 0;
   width: 100%;
   background-color: #DDD;
   justify-content: center;
   display: flex;
+  position: absolute;
 }
 
 .footer-item1 {
@@ -22,8 +22,9 @@ footer {
   justify-content: center;
   align-items: center;
   width: 80%;
-  height: 50px;
+  min-height: 30px;
   flex: 1;
   color: #929292;
   font-size: 10px;
+  margin: 20px 10px 20px 10px;
 }

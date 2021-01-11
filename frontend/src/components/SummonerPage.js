@@ -31,14 +31,16 @@ export default class SummonerPage extends Component {
         <Navbar />
         <Paper id='contentwrapper'>
           <Grid container>
-            <Grid item xs={2}>
-              <img
-                className='summonericon'
-                src={this.getSummonerIcon()}
-              />
+            <Grid item xs={3} sm={1}>
+              <div className='center'>
+                  <img
+                    className='summonericon'
+                    src={this.getSummonerIcon()}
+                  />
+              </div>
             </Grid>
-            <Grid item>
-              {this.state.summoner_name}
+            <Grid item className='vCenter'>
+              <Typography class='sumName'>{this.state.summoner_name}</Typography>
             </Grid>
           </Grid>
           <Grid container>
@@ -50,6 +52,10 @@ export default class SummonerPage extends Component {
             </Grid>
           </Grid>
         </Paper>
+        <footer>
+          <div className='footer-item1'>[WEBSITE NAME] © 2021 [WEBSITE NAME] isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+          </div>
+        </footer>
       </div>
     );
   }

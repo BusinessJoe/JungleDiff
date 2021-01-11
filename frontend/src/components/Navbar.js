@@ -16,13 +16,13 @@ import { Link } from "react-router-dom";
                         </Grid>
                         <Grid item xs={12} align="center">
                             <ButtonGroup variant="contained" size="small" fullWidth={true}>
-                                <Button variant="contained" style={{ backgroundColor: "#a6d4fa" }}>
+                                <Button variant="contained" style={{ backgroundColor: "#DDD" }}>
                                     <Typography>Something1</Typography>
                                 </Button>
-                                <Button variant="contained" style={{ backgroundColor: "#a6d4fa" }}>
+                                <Button variant="contained" style={{ backgroundColor: "#DDD" }}>
                                     <Typography>Something2</Typography>
                                 </Button>
-                                <Button variant="contained" style={{ backgroundColor: "#a6d4fa" }} >
+                                <Button variant="contained" style={{ backgroundColor: "#DDD" }} >
                                     <Typography>Something3</Typography>
                                 </Button>
                             </ButtonGroup>

@@ -2,10 +2,28 @@
   margin: auto;
   width: 80%;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .summonericon {
-  width: 100%;
+  width: 65%;
+}
+.sumName {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+.vCenter{
+    display: flex;
+    align-items: center;
+}
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0 10px 0;
 }
 
 body {
