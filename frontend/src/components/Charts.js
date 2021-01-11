@@ -48,6 +48,8 @@ export default class DragonGoldDiffChart extends Component {
         text: 'First Dragon Chance vs Botlane Gold Diff @ 10 mins',
       },
       aspectRatio: 1.5,
+      maintainAspectRatio: false,
+      responsive: true,
       scales: {
         xAxes: [{
           ticks: {
@@ -71,19 +73,21 @@ export default class DragonGoldDiffChart extends Component {
         }]
       },
       tooltips: {
-        mode: 'index',
+        mode: 'x',
         intersect: false,
       },
     }
 
     // Null width and height are required for aspectRatio to work
     return (
-      <Scatter
-        data={chartData}
-        height={null}
-        width={null}
-        options={chartOptions}
-      />
+      <div className="chart-container">
+        <Scatter
+          data={chartData}
+          height={null}
+          width={null}
+          options={chartOptions}
+        />
+      </div>
     )
   }
 }

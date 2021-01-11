@@ -31,7 +31,7 @@ export default class SummonerPage extends Component {
         <Navbar />
         <Paper id='contentwrapper'>
           <Grid container>
-            <Grid item xs={3} sm={1}>
+            <Grid item xs={3} md={2} lg={1}>
               <div className='center'>
                   <img
                     className='summonericon'
@@ -40,14 +40,14 @@ export default class SummonerPage extends Component {
               </div>
             </Grid>
             <Grid item className='vCenter'>
-              <Typography class='sumName'>{this.state.summoner_name}</Typography>
+              <Typography className='sumName'>{this.state.summoner_name}</Typography>
             </Grid>
           </Grid>
           <Grid container>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} md={6}>
               <DragonGoldDiffChart Location={this.state.Location}/>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} md={6}>
               Graph explanation
             </Grid>
           </Grid>
