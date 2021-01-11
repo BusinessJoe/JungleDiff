@@ -31,7 +31,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div className="page-container">
         <div
           style={{
             position: 'absolute', left: '50%', top: '50%',
@@ -40,6 +40,7 @@ export default class Home extends Component {
             borderRadius: '10px',
             opacity: '0.8',
           }}
+          className="content"
           >
           <Grid container spacing={3} className="center" direction="row" align="center" justify="center">
             <Grid item xs={12} align="center">
@@ -52,8 +53,8 @@ export default class Home extends Component {
             </Grid>
           </Grid>
         </div>
-        <footer>
-          <div className='footer-item1'>[WEBSITE NAME] © 2021 [WEBSITE NAME] isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+        <footer className="footer">
+          <div className="footer-content">[WEBSITE NAME] © 2021 [WEBSITE NAME] isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
           </div>
         </footer>
       </div>

@@ -1,9 +1,27 @@
-#contentwrapper {
+body > #root > div {
+  height: 100vh;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+}
+.page-container > .content {
+  flex-grow: 1;
+}
+.page-container > .footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+#content-paper {
   margin: auto;
-  width: 100%;
+  width: 95%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 @media only screen and (min-width: 960px) {
-#contentwrapper {
+#content-paper {
   margin: auto;
   width: 80%;
   margin-top: 20px;
@@ -21,7 +39,7 @@
 }
 }
 
-.summonericon {
+.summoner-icon {
   width: 65%;
 }
 .sumName {
@@ -30,7 +48,7 @@
   align-items: center;
 }
 
-.vCenter{
+.v-center{
     display: flex;
     align-items: center;
 }

@@ -27,33 +27,35 @@ export default class SummonerPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className='page-container'>
         <Navbar />
-        <Paper id='contentwrapper'>
-          <Grid container>
-            <Grid item xs={3} md={2} lg={1}>
-              <div className='center'>
-                  <img
-                    className='summonericon'
-                    src={this.getSummonerIcon()}
-                  />
-              </div>
+        <div className='content'>
+          <Paper id='content-paper'>
+            <Grid container>
+              <Grid item xs={3} md={2} lg={1}>
+                <div className='center'>
+                    <img
+                      className='summoner-icon'
+                      src={this.getSummonerIcon()}
+                    />
+                </div>
+              </Grid>
+              <Grid item className='v-center'>
+                <Typography className='sumName'>{this.state.summoner_name}</Typography>
+              </Grid>
             </Grid>
-            <Grid item className='vCenter'>
-              <Typography className='sumName'>{this.state.summoner_name}</Typography>
+            <Grid container>
+              <Grid item xs={12} sm={6}>
+                <DragonGoldDiffChart Location={this.state.Location}/>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                Graph explanation
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item xs={12} md={6}>
-              <DragonGoldDiffChart Location={this.state.Location}/>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              Graph explanation
-            </Grid>
-          </Grid>
-        </Paper>
-        <footer>
-          <div className='footer-item1'>[WEBSITE NAME] © 2021 [WEBSITE NAME] isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+          </Paper>
+        </div>
+        <footer className='footer'>
+          <div className='footer-content'>[WEBSITE NAME] © 2021 [WEBSITE NAME] isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
           </div>
         </footer>
       </div>
