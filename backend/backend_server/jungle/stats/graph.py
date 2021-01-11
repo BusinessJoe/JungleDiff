@@ -9,7 +9,7 @@ class Graph:
     coords: List[Tuple[float, float]]
 
     def chart_js_dataset(self):
-        data = [{'x': p[0], 'y': p[1]} for p in self.coords]
+        data = [{'x': round(p[0], 2), 'y': round(p[1], 2)} for p in self.coords]
         return {
             'label': self.label,
             'data': data,

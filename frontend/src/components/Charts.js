@@ -53,15 +53,27 @@ export default class DragonGoldDiffChart extends Component {
           ticks: {
             min: -500,
             max: 500,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Botlane Gold Diff',
           }
         }],
         yAxes: [{
           ticks: {
             min: 0,
             max: 1,
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'First Dragon Chance',
           }
         }]
-      }
+      },
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
     }
 
     // Null width and height are required for aspectRatio to work
