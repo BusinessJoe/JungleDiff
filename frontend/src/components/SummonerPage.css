@@ -60,6 +60,20 @@ body > #root > div {
     padding: 10px 0 10px 0;
 }
 
+.plaintext {
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+@media only screen and (min-width: 960px) {
+.text-container {
+  padding-top: 70px;
+}
+.plaintext {
+  margin-right: 20px;
+}
+}
+
 body {
   background-color: pink;
 }
