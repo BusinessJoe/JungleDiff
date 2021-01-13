@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" style = {{ backgroundColor: "#2066d6" }}>
         <Grid item xs={12} align = "center" styles={{flexGrow: 1}}>
           <Typography
             variant='h2'

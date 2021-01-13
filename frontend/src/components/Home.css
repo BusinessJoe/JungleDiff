@@ -1,8 +1,6 @@
-/*body {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url(../images for backgrounds/Ocean.jpg);
-}*/
+body {
+  background-color: #87CEEB;
+}
 
 .darken-overlay {
   background-color: rgba(0, 0, 0, 0.5);
