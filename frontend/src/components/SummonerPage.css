@@ -57,7 +57,7 @@ body > #root > div {
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 10px 0 10px 0;
+    padding: 20px 0 0 0;
 }
 
 .plaintext {
@@ -71,5 +71,14 @@ body > #root > div {
 }
 .plaintext {
   margin-right: 20px;
+}
+}
+@media only screen and (max-width: 600px) {
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 0 0 0;
 }
 }
