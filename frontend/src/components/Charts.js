@@ -17,6 +17,8 @@ export default class DragonGoldDiffChart extends Component {
     // get summoner data
     axios.get(`${this.props.Location}graph/dragon-gold-diff`)
     .then(({ data }) => {
+      data.borderColor = 'rgb(0, 102, 153, 1)';
+      data.backgroundColor = 'rgb(0, 102, 153, 0.4)';
       this.setState({
         summonerData : data
       });
@@ -26,7 +28,8 @@ export default class DragonGoldDiffChart extends Component {
     // get comparison datasets
     axios.get('/api/comparison/graph/dragon-gold-diff/')
     .then(({ data }) => {
-      data.backgroundColor = '#AAAAAA';
+      data.borderColor = 'rgb(0, 136, 204, 1)';
+      data.backgroundColor = 'rgb(0, 102, 153, 0.2)';
       this.setState({
         comparisonData : data
       });
