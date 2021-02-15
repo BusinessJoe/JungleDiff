@@ -20,7 +20,7 @@ export default class Home extends Component {
         console.log(response);
         this.props.history.push({
           pathname: "/summonerPage/" + e.target.value,
-          state: response.data
+          state: {summoner_data: response.data}
         })
       })
       .catch(error => {

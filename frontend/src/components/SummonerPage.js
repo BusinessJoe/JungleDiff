@@ -1,7 +1,9 @@
 import { React, Component } from 'react';
+import { useParams } from 'react-router-dom';
 import { Grid, Typography, TextField, Paper } from '@material-ui/core';
 import Navbar from './Navbar';
 import DragonGoldDiffChart from './Charts.js';
+import SummonerInfo from './SummonerInfo.js';
 import axios from 'axios';
 import './SummonerPage.css';
 
@@ -9,19 +11,33 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default class SummonerPage extends Component {
   constructor(props) {
-    super (props);
+    super(props);
 
     this.state = {
-      ...props.location.state,
       data: {
         datasets: null,
       }
-    }
+    };
   }
 
-  getSummonerIcon() {
-    const iconId = this.state.profile_icon_id;
-    return `http://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/${iconId}.png`
+  componentDidMount() {
+    if (typeof this.props.location.state !== 'undefined') {
+      let summoner_data = this.props.location.state.summoner_data;
+      this.setState({summoner_data: summoner_data});
+      console.log('not undefined')
+      console.log(summoner_data);
+      console.log(this.state);
+    }
+    else {
+      let name = this.props.match.params.summonerName;
+      axios.get('api/summoner', {params: {summoner_name: name}})
+      .then(response => {
+        this.setState({summoner_data: response.data});
+        console.log('undefined');
+        console.log(response.data);
+        console.log(this.state);
+      });
+    }
   }
 
   render() {
@@ -30,37 +46,29 @@ export default class SummonerPage extends Component {
         <Navbar />
         <div className='content'>
           <Paper id='content-paper'>
-            <Grid container>
-              <Grid item xs={3} md={2} lg={1}>
-                <div className='center'>
-                    <img
-                      className='summoner-icon'
-                      src={this.getSummonerIcon()}
-                    />
-                </div>
+            {this.state.summoner_data &&
+              <SummonerInfo summoner_data={this.state.summoner_data} />
+            }
+            {this.state.summoner_data &&
+              <Grid container>
+                <Grid item xs={12} sm={6}>
+                  <DragonGoldDiffChart summonerName={this.state.summoner_data.summoner_name}/>
+                </Grid>
+                <Grid item xs={12} sm={6} className='text-container'>
+                  <p className='plaintext'>
+                    This graph represents your predicted chances of securing the
+                    first dragon based on data from your last 30 ranked games and
+                    compares it to the average diamond game.
+                  </p>
+                  <p className='plaintext'>
+                    For example, the average diamond player has a 50% chance of
+                    securing the first dragon if the botlane is perfectly even
+                    (0 gold difference). This chance grows to 75% if
+                    botlane is 300 gold ahead.
+                  </p>
+                </Grid>
               </Grid>
-              <Grid item className='v-center'>
-                <Typography className='sumName'>{this.state.summoner_name}</Typography>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item xs={12} sm={6}>
-                <DragonGoldDiffChart Location={this.state.Location}/>
-              </Grid>
-              <Grid item xs={12} sm={6} className='text-container'>
-                <p className='plaintext'>
-                  This graph represents your predicted chances of securing the
-                  first dragon based on data from your last 30 ranked games and
-                  compares it to the average diamond game.
-                </p>
-                <p className='plaintext'>
-                  For example, the average diamond player has a 50% chance of
-                  securing the first dragon if the botlane is perfectly even
-                  (0 gold difference). This chance grows to 75% if
-                  botlane is 300 gold ahead.
-                </p>
-              </Grid>
-            </Grid>
+            }
           </Paper>
         </div>
         <footer className='footer'>

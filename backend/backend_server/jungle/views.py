@@ -18,10 +18,39 @@ from jungle.stats import dragon_gold_diff
 import utils.utils as utils
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @csrf_exempt
 def update_summoner(request):
-    if request.method == 'POST':
+    # Get current matches without updating
+    if request.method == 'GET':
+        # If the query is missing the summoner_name parameter then the request is bad
+        try:
+            summoner_name = utils.sanitize_name(request.query_params['summoner_name'])
+        except KeyError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # Only the "canonical" name for each summoner is stored in the database so while
+        # a name might be valid for riot's api, we might not find its summoner object.
+        # We can use riot's api to get the "canonical" name in this case.
+        try:
+            s = Summoner.objects.get(name=summoner_name)
+        except ObjectDoesNotExist:
+            # Get the name from riot
+            api = LeagueApi(os.environ['RIOT-API-TOKEN'], 'NA1')
+            summoner_dict = api.get_summoner_by_name(summoner_name)
+            account_id = summoner_dict['accountId']
+            s = Summoner.objects.get(accountId=account_id)
+        return Response(
+            {
+                "summoner_name": s.name,
+                "account_id": s.accountId,
+                "profile_icon_id": s.profileIconId,
+                "Location": f'{request.build_absolute_uri()}{summoner_name}/'
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    elif request.method == 'POST':
         try:
             summoner_name = request.data['summoner_name']
             summoner_name = utils.sanitize_name(summoner_name)
@@ -47,7 +76,7 @@ def update_summoner(request):
 
         return Response(
             {
-                "summoner_name": summoner_name,
+                "summoner_name": summoner.name,
                 "account_id": summoner.accountId,
                 "profile_icon_id": summoner.profileIconId,
                 "matches": num_new_matches,

@@ -15,15 +15,18 @@ export default class DragonGoldDiffChart extends Component {
 
   componentDidMount() {
     // get summoner data
-    axios.get(`${this.props.Location}graph/dragon-gold-diff`)
-    .then(({ data }) => {
-      data.borderColor = 'rgb(0, 102, 153, 1)';
-      data.backgroundColor = 'rgb(0, 102, 153, 0.4)';
-      this.setState({
-        summonerData : data
-      });
-    })
-    .catch((err) => {console.log(err);});
+    console.log(this.props.summonerName);
+    if (typeof this.props.summonerName !== 'undefined') {
+      axios.get(`api/summoner/${this.props.summonerName}/graph/dragon-gold-diff`)
+      .then(({ data }) => {
+        data.borderColor = 'rgb(0, 102, 153, 1)';
+        data.backgroundColor = 'rgb(0, 102, 153, 0.4)';
+        this.setState({
+          summonerData : data
+        });
+      })
+      .catch((err) => {console.log(err);});
+    }
 
     // get comparison datasets
     axios.get('/api/comparison/graph/dragon-gold-diff/')
