@@ -6,10 +6,6 @@ import './Home.css'
 axios.defaults.baseURL = 'http://localhost:8000';
 
 export default class Home extends Component {
-  constructor(props) {
-    super (props);
-  }
-
   enterPressed(e) {
     var code = e.keyCode || e.which;
     if(code === 13) {

@@ -1,6 +1,5 @@
 import { React, Component } from 'react';
-import { useParams } from 'react-router-dom';
-import { Grid, Typography, TextField, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import Navbar from './Navbar';
 import DragonGoldDiffChart from './Charts.js';
 import SummonerInfo from './SummonerInfo.js';
