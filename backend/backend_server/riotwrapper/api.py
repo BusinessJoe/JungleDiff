@@ -83,6 +83,7 @@ class LeagueApi:
 
         if response.status_code == 429:
             retry_after = int(response.headers["Retry-After"])
+            print(f'waiting for {retry_after} seconds')
             time.sleep(retry_after)
             return self.make_request(uri, **params)
 
